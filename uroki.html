@@ -1,0 +1,962 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+    <title>Уроки курса</title> 
+    <link rel="stylesheet" href="https://unpkg.com/@popperjs/core@2">
+    <!-- Подключение стилей Bootstrap --> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <!-- Подключение стилей Swiper --> 
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" /> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style> 
+        html, 
+        body { 
+            position: relative; 
+            height: 100%;
+        } 
+        body { 
+            background: #eee; 
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif; 
+            font-size: 14px; 
+            color: #000; 
+            margin: 0; 
+            padding: 0; 
+        } 
+        body {
+        background-color: black;
+    }
+        .swiper { 
+            width: 100%; 
+            height: 100%; 
+        } 
+        .swiper-slide { 
+            text-align: center; 
+            font-size: 18px; 
+            background: #fff; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 300px; /* Регулируйте высоту слайда по вашему желанию */ 
+            border: none; /* Убираем рамку у слайдов */ 
+            border-radius: 10px; /* Добавляем скругление углов */ 
+        } 
+        .swiper-slide img { 
+            display: block; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        } 
+        .card { 
+            border: none; /* Убираем рамку у карточек */ 
+        } 
+        .logo { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            width: 150px; 
+            height: 150px;
+            transition: top 0.3s ease-out; /* добавлено для плавности анимации */
+        }
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 767px) {
+            .logo {
+                display: none; /* Скрываем логотип на мобильных устройствах */
+            }
+        }
+        /* Адаптация для планшетных устройств */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .logo {
+                top: 70px; /* Позиция логотипа для планшетных устройств */
+            }
+        }
+        @media (max-width: 991px) {
+    .mobile-menu-item {
+        font-size: 20px;
+        }
+    }
+    .btn-gradient {
+        background: linear-gradient(to right, #ff6a00, #ee0979);
+        color: #fff;
+    }
+    .section-divider {
+    border-top: 1px solid white;
+    margin-top: 20px;
+    }
+
+    .lesson-details-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .close-details {
+            margin-top: 10px;
+        }
+        .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 1);
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 1s ease;
+        }
+
+        .preloader.hidden {
+        opacity: 0;
+        pointer-events: none;
+        }
+
+        .spinner {
+        width: 100px;
+        height: 100px;
+        border: 5px solid #333;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+        }
+
+@media (max-width: 767px) {
+  .btn.btn-gradient.btn-lg.slide {
+    display: none;
+  }
+}
+
+
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.collapse {
+  transition: all 0.5s ease-out;
+  transform-origin: top;
+}
+
+.dop {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  @media (max-width: 767px) {
+    .tick {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .tick .tick-label {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+  
+    .tick .tick-icon {
+      font-size: 24px;
+    }
+  
+    .tick .tick-image {
+      max-width: 100%;
+      margin-top: 8px;
+    }
+  }
+
+.custom-tooltip {
+  --bs-tooltip-bg: #fff; /* белый фон */
+  --bs-tooltip-color: #000; /* черный текст */
+}
+
+.custom-tooltip .tooltip-inner {
+  font-size: 16px; /* Установите размер шрифта в пикселях */
+  padding: 8px 16px; /* Установите внутренние отступы в пикселях */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background: #fbc2eb;
+  }
+  50% {
+    background: #a6c1ee;
+  }
+  100% {
+    background: #fbc2eb;
+  }
+}
+
+
+.animated-gradient {
+  height: 562px; /* Set the height of the rectangle */
+  background: linear-gradient(0deg, #fbc2eb 0%, #a6c1ee 100%);
+  background-size: 200% 200%;
+  animation: gradientAnimation 5s linear infinite;
+  color: #fff; /* Adjust text color as needed */
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 20px; /* Rounded corners */
+  overflow: hidden; /* Ensures the content does not spill outside the rounded corners */
+  box-sizing: border-box; /* Ensures the padding is included in the width/height */
+  margin: auto; /* Center the rectangle if the parent is wider */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column; /* Stack elements vertically */
+  position: relative;
+}
+
+.pricing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.content h2 {
+  margin-bottom: 20px; /* Add space below the header */
+  font-size: 36px; /* Increase the font size for the header */
+  /* Additional styles for your header as needed */
+}
+
+.original-price {
+  text-decoration: line-through;
+  margin-right: 10px; /* Add some space between the original and discounted prices */
+  font-size: 28px; /* Increase the font size for the original price */
+  /* Additional styles for the original price as needed */
+}
+
+.discounted-price {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 32px; /* Increase the font size for the discounted price */
+  /* Additional styles for the discounted price as needed */
+}
+
+.animated-gradient .content {
+  /* Styles for your content */
+  text-align: center; /* Example */
+  margin-top: -120px;
+}
+
+#discount-signup-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #fff; /* Adjust text color as needed */
+  background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px; /* Space from the text above */
+  /* Add more styles if needed */
+  position: relative; /* Добавлено, чтобы z-index работал, так как z-index работает только для непостатически позиционированных элементов */
+  z-index: 3; /* Выше, чем у снежинок */
+}
+
+
+#discount-signup-button {
+  transition: transform 0.3s ease; /* Плавный переход transform за 0.3 секунды */
+}
+
+#discount-signup-button:hover {
+  transform: scale(1.1); /* Увеличить размер кнопки при наведении */
+}
+
+.snowflake {
+  color: #FFF;
+  font-size: 40px;
+  position: absolute;
+  top: -32px;
+  z-index: 2;
+  user-select: none; /* Предотвращает выделение текста */
+  -webkit-user-select: none; /* Версия для WebKit/Blink браузеров */
+  -moz-user-select: none; /* Версия для Firefox */
+  -ms-user-select: none; /* Версия для Internet Explorer/Edge */
+}
+
+@keyframes fall {
+  to {
+    margin-top: 100vh;
+  }
+}
+
+.animated-gradient {
+  position: relative;
+  overflow: hidden; /* Это предотвратит показ снежинок за пределами секции */
+}
+
+@media (max-width: 768px) { /* Для планшетных версий */
+  .animated-gradient .snowflake {
+    font-size: 50px; /* Увеличьте размер снежинок */
+  }
+
+  .animated-gradient #discount-signup-button {
+    transform: scale(1.2); /* Увеличьте размер кнопки */
+  }
+}
+
+@media (max-width: 480px) { /* Для мобильных версий */
+  .animated-gradient .snowflake {
+    font-size: 30px; /* Еще больше увеличьте размер снежинок */
+  }
+
+  .animated-gradient #discount-signup-button {
+    transform: scale(1.3); /* Еще больше увеличьте размер кнопки */
+  }
+}
+
+dotlottie-player {
+            position: absolute;
+            left: 30px;
+            top: 0;
+            top: 110px;
+            z-index: 3;
+        }
+
+.footer {
+    background-color: #d3d3d3; /* Серый фон */
+    padding: 10px 0;
+    margin-top: 30px; /* Отодвигаем подвал от блока со скидками */
+    display: flex;
+    align-items: center;
+}
+
+.footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Выравниваем элементы по центру */
+    width: 100%; /* Ensure the container takes full width */
+}
+
+/* Эти классы могут быть удалены или изменены, если они больше не нужны */
+.footer-left {
+    flex: 0 0 auto;
+    padding-right: 20px;
+}
+
+.footer-content {
+    flex-grow: 1;
+    text-align: center; /* Если хотите центрировать текст внутри .footer-content */
+}
+  .footer-nav {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-nav li {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  .footer-nav a {
+    text-decoration: none;
+    color: #000;
+    position: relative;
+    display: inline-block;
+  }
+
+.footer-nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #000;
+  bottom: -2px; /* Поднять линию ближе к тексту */
+  left: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.footer-nav a:hover::after {
+  width: 100%;
+}
+
+/* Добавленный CSS для анимации при скролле в мобильной версии */
+@media (max-width: 1024px) {
+  .footer-nav a::after {
+    transition: width 0.3s ease-in-out;
+  }
+
+  .footer-nav a.animate-link::after {
+    width: 100%; /* Запуск анимации */
+  }
+}
+
+@media (max-width: 768px) {
+  dotlottie-player {
+    margin-top: 220px !important; /* Сдвигаем блок вниз */
+    width: 200px !important;
+    height: 200px !important;
+    margin-left: 50px !important;
+  }
+}
+
+@media (min-width: 775px) and (max-width: 1050px) {
+  dotlottie-player {
+    margin-top: 80px !important; /* Укажите нужный отступ сверху */
+    /* Другие стили, если необходимо */
+  }
+}
+
+
+.py-5 {
+  padding-bottom: 0 !important;
+}
+
+.profile-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+img[src$="tick.svg"] {
+  cursor: pointer;
+}
+    </style>
+    
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+</head> 
+<body> 
+    <!-- Navbar Bootstrap --> 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
+        <div class="container"> 
+            <a class="navbar-brand" href="#">Bootstrap Курс</a> 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> 
+                <span class="navbar-toggler-icon"></span> 
+            </button> 
+            <div class="collapse navbar-collapse" id="navbarNav"> 
+                <ul class="navbar-nav ml-auto"> 
+                <li class="nav-item">
+                <a class="nav-link mobile-menu-item" href="Bootstrap.html">О курсе</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link mobile-menu-item" href="#lessons">Уроки</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link mobile-menu-item" href="#contact">Контакты</a>
+                </li>
+                </ul> 
+            </div> 
+        </div> 
+    </nav> 
+    <img class="logo" src="./programming.svg" alt="Логотип программирования"> 
+    <!-- Блок с текстом --> 
+    <section id="welcome" class="py-5 text-white bg-dark"> 
+        <div class="container"> 
+            <p class="display-4">Добро пожаловать на наши уроки, <span id="username-placeholder"></span></p> 
+            <p class="lead"> 
+                Наш курс по Bootstrap поможет вам научиться создавать современные веб-сайты быстро. Тут мы подготовили список уроков с подробным описанием 
+                каждого из них. Читайте и проходите курс. 
+            </p> 
+        </div> 
+    </section> 
+    <!-- Секция "О курсе" --> 
+    <section id="about" class="py-5"> 
+        <div class="container"> 
+            <h2 class="display-4 text-white">Добро пожаловать на курс по Bootstrap!</h2> 
+            <p class="lead text-white">Здесь вы научитесь создавать отзывчивые и стильные веб-сайты с использованием Bootstrap.</p> 
+        </div> 
+    </section> 
+    <!-- Секция "Уроки" --> 
+    <section id="lessons" class="py-5"> 
+        <div class="container"> 
+            <h2 class="display-4">Уроки по Bootstrap</h2> 
+            <!-- Swiper --> 
+            <div class="swiper mySwiper"> 
+                <div class="swiper-wrapper"> 
+                    <!-- Урок 1 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 1: Введение в Bootstrap</h3> 
+                                <p class="card-text">Ознакомьтесь с основами Bootstrap, его структурой и возможностями. 
+                                    Установите Bootstrap в свой проект.</p> 
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                            </div> 
+                        </div>
+                    </div> 
+                    <!-- Урок 2 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 2: Сетка (Grid) в Bootstrap</h3> 
+                                <p class="card-text">Изучите систему сетки Bootstrap для создания адаптивных макетов. 
+                                    Узнайте, как использовать контейнеры, строки и колонки.</p>
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                            </div> 
+                        </div> 
+                    </div> 
+                    <!-- Урок 3 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 3: Компоненты Bootstrap</h3> 
+                                <p class="card-text">Научитесь использовать готовые компоненты Bootstrap, такие как 
+                                    навигационные панели, карточки, модальные окна и другие.</p>
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- Урок 4 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 4: Утилиты Bootstrap</h3> 
+                                <p class="card-text">Изучите утилиты Bootstrap, такие как классы для работы с отступами, 
+                                    цветами, шрифтами и другими элементами веб-страницы.</p>
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- Урок 5 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 5: Адаптивный дизайн с Bootstrap</h3> 
+                                <p class="card-text">Узнайте, как создавать адаптивный дизайн с помощью Bootstrap, 
+                                    чтобы ваш сайт выглядел хорошо на разных устройствах и разрешениях экрана.</p>
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button> 
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- Урок 6 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 6: Формы и валидация</h3> 
+                                <p class="card-text">Изучите, как создавать формы и добавлять валидацию с помощью Bootstrap, 
+                                    чтобы получать и обрабатывать данные от пользователей.</p>
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- Урок 7 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 7: Навигация и меню</h3> 
+                                <p class="card-text">Научитесь создавать навигационные меню с помощью Bootstrap, 
+                                    чтобы пользователи могли легко перемещаться по вашему сайту.</p>
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button> 
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- Урок 8 --> 
+                    <div class="swiper-slide"> 
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <h3 class="card-title">Урок 8: Работа с изображениями и медиа</h3> 
+                                <p class="card-text">Узнайте, как добавлять и настраивать изображения.</p>
+                                    <button class="btn btn-gradient btn-lg slide" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button> 
+                            </div> 
+                        </div> 
+                    </div>
+                </div> 
+                <div class="swiper-button-next d-none d-lg-block"></div>
+                <div class="swiper-button-prev d-none d-lg-block"></div>
+            </div> 
+        </div>
+        
+        <section id="lesson1" class="py-5 d-flex flex-column section-divider">
+            <div class="container">
+              <h2 class="display-4 text-white">Урок 1: Введение в Bootstrap</h2>
+              <p class="lead text-white">Ознакомьтесь с основами Bootstrap, его структурой и возможностями. 
+                Установите Bootstrap в свой проект.</p>
+              <div class="container text-center">
+                <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(1)"> 
+            </div>
+          
+            <div id="detailedDescription1" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+                <h3 class="text-white">На этом уроке вы изучите
+                </h3>
+                <p class="text-white dop">
+                    1. методы подключения Bootstrap к вашему сайту<br>
+                    2. структуру Bootstrap<br>
+                    3. возможности Bootstrap
+                  </p>
+            </div>
+          </section>
+          
+          <section id="lesson2" class="py-5 d-flex flex-column section-divider">
+            <div class="container">
+              <h2 class="display-4 text-white">Урок 2: Сетка (Grid) в Bootstrap</h2>
+              <p class="lead text-white">Изучите систему сетки Bootstrap для создания адаптивных макетов. 
+                Узнайте, как использовать контейнеры, строки и колонки.</p>
+              <div class="container text-center">
+                <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(2)"> 
+              </div>
+            </div>
+          
+            <div id="detailedDescription2" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+                <h3 class="text-white">На этом уроке вы изучите</h3>
+                <p class="text-white dop">
+                    1. Grid в Bootstrap<br>
+                    2. Как стоиться сайт<br>
+                    3. Как позиционировать элементы
+                  </p>
+            </div>
+          </section>
+          
+          <section id="lesson3" class="py-5 d-flex flex-column section-divider">
+            <div class="container">
+              <h2 class="display-4 text-white">Урок 3: Компоненты Bootstrap</h2>
+              <p class="lead text-white">Научитесь использовать готовые компоненты Bootstrap, такие как 
+                навигационные панели, карточки, модальные окна и другие.</p>
+              <div class="container text-center">
+                <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+                <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(3)"> 
+              </div>
+            </div>
+          
+            <div id="detailedDescription3" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+                <h3 class="text-white">На этом уроке вы изучите</h3>
+                <p class="text-white dop">
+                    1. Компоненты Bootstrap<br>
+                    2. Расположение в сетке<br>
+                    3. Настройки карточки<br>
+                    4. Компоненты модальных окон<br>
+                    5. Компоненты с переключателем
+                  </p>
+            </div>
+          </section>
+
+        <section id="lesson4" class="py-5 d-flex flex-column section-divider">
+        <div class="container">
+            <h2 class="display-4 text-white">Урок 4: Утилиты Bootstrap</h2>
+            <p class="lead text-white">Изучите утилиты Bootstrap, такие как классы для работы с отступами, 
+                цветами, шрифтами и другими элементами веб-страницы.</p>
+            <div class="container text-center">
+            <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+            <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(4)"> 
+            </div>
+        </div>
+
+        <div id="detailedDescription4" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+            <h3 class="text-white">На этом уроке вы изучите</h3>
+            <p class="text-white dop">
+                1. Утилиты Bootstrap<br>
+                2. Классы для работы с отступами<br>
+                3. Классы для работы с цветами, шрифтами<br>
+              </p>
+        </div>
+        </section>
+
+        <section id="lesson5" class="py-5 d-flex flex-column section-divider">
+        <div class="container">
+            <h2 class="display-4 text-white">Урок 5: Адаптивный дизайн с Bootstrap</h2>
+            <p class="lead text-white">Узнайте, как создавать адаптивный дизайн с помощью Bootstrap, 
+                чтобы ваш сайт выглядел хорошо на разных устройствах и разрешениях экрана.</p>
+            <div class="container text-center">
+            <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+            <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(5)"> 
+            </div>
+        </div>
+
+        <div id="detailedDescription5" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+            <h3 class="text-white">На этом уроке вы изучите</h3>
+            <p class="text-white dop">
+                1. Адаптивный дизайн<br>
+                2. Структуру Bootstrap<br>
+                3. Возможности Bootstrap
+              </p>
+        </div>
+        </section>
+
+        <section id="lesson6" class="py-5 d-flex flex-column section-divider">
+        <div class="container">
+            <h2 class="display-4 text-white">Урок 6: Формы и валидация</h2>
+            <p class="lead text-white">Изучите, как создавать формы и добавлять валидацию с помощью Bootstrap, 
+                чтобы получать и обрабатывать данные от пользователей.</p>
+            <div class="container text-center">
+            <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+            <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(6)"> 
+            </div>
+        </div>
+
+        <div id="detailedDescription6" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+            <h3 class="text-white">На этом уроке вы изучите</h3>
+            <p class="text-white dop">
+                1. Как создавать формы<br>
+                2. Как настраивать формы<br>
+                3. Отправку данных из формы
+              </p>
+              </div>
+            </section>
+
+        <section id="lesson7" class="py-5 d-flex flex-column section-divider">
+        <div class="container">
+            <h2 class="display-4 text-white">Урок 7: Навигация и меню</h2>
+            <p class="lead text-white">Научитесь создавать навигационные меню с помощью Bootstrap, 
+                чтобы пользователи могли легко перемещаться по вашему сайту.</p>
+            <div class="container text-center">
+            <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+            <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(7)"> 
+            </div>
+        </div>
+
+        <div id="detailedDescription7" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+            <h3 class="text-white">На этом уроке вы изучите</h3>
+            <p class="text-white dop">
+                1. Адаптивные меню<br>
+                2. Кастомизацию меню<br>
+                3. Элементы меню
+              </p>
+        </div>
+        </section>
+
+        <section id="lesson8" class="py-5 d-flex flex-column section-divider">
+        <div class="container">
+            <h2 class="display-4 text-white">Урок 8: Работа с изображениями и медиа</h2>
+            <p class="lead text-white">Узнайте, как добавлять и настраивать изображения.</p>
+            <div class="container text-center">
+            <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#registrationModal">Записаться на курс</button>
+            <img src="./tick.svg" alt="Tick" style="float: right; width: 100px; height: 100px;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Нажми на меня!" onclick="toggleDetailedDescription(8)"> 
+            </div>
+        </div>
+
+        <div id="detailedDescription8" class="text-center collapse" style="animation: slide-down 0.5s ease-out;">
+            <h3 class="text-white">На этом уроке вы изучите</h3>
+            <p class="text-white dop">
+                1. Возможности изменения изображений<br>
+                2. Использование изображений как кнопок<br>
+                3. Анимацию изображений
+            </p>
+        </div>
+        </section>
+        
+        <section class="animated-gradient">
+          <div class="content">
+              <h2>Новогодняя скидка на курс!</h2>
+              <div class="pricing">
+                  <span class="original-price">20 000</span>
+                  <span class="discounted-price">10 000</span>
+              </div>
+              <dotlottie-player src="https://lottie.host/66135d4e-c206-4b29-8a7c-ed3f2b11a12a/tY8LBdvjAk.json" background="transparent" speed="1" style="width: 300px; height: 300px" direction="1" mode="normal" loop autoplay></dotlottie-player>
+              <button id="discount-signup-button" data-bs-toggle="modal" data-bs-target="#registrationModal" class="btn btn-primary">Записаться со скидкой</button>
+          </div>
+      </section>
+
+      <footer class="footer">
+        <div class="container">
+        <div class="footer-left">
+            <img src="./profile.svg" alt="Profile" class="profile-img">
+        </div>
+          <div class="footer-right">
+            <ul class="footer-nav">
+              <li><a href="./Bootstrap.html">Главная</a></li>
+              <li><a href="./profile.html">Профиль</a></li>
+            </ul>
+            <p class="text-muted">Pro Academy &copy; 2023</p>
+          </div>
+        </div>
+      </footer>
+<!-- Модальное окно -->
+<!-- Модальное окно -->
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">Запись на курс</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="name" placeholder="Введите ваше имя">
+          </div>
+          <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="preloader">
+    <div class="spinner"></div>
+</div>  
+    </section> 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+    <script> 
+        var swiper = new Swiper(".mySwiper", { 
+            spaceBetween: 30, 
+            centeredSlides: true, 
+            autoplay: { 
+                delay: 2500, 
+                disableOnInteraction: false, 
+            }, 
+            pagination: { 
+                el: ".swiper-pagination", 
+                clickable: true, 
+            }, 
+            navigation: { 
+                nextEl: ".swiper-button-next", 
+                prevEl: ".swiper-button-prev", 
+            }, 
+        });
+
+let isDetailedDescriptionOpen = false;
+
+function toggleDetailedDescription(lessonNumber) {
+  const detailedDescription = document.getElementById(`detailedDescription${lessonNumber}`);
+  
+  if (!isDetailedDescriptionOpen) {
+    detailedDescription.style.display = 'block';
+    detailedDescription.classList.add('show');
+    isDetailedDescriptionOpen = true;
+  } else {
+    detailedDescription.classList.remove('show');
+    detailedDescription.style.display = 'none';
+    isDetailedDescriptionOpen = false;
+  }
+}
+
+    window.addEventListener('load', function() {
+  var preloader = document.querySelector('.preloader');
+  setTimeout(function() {
+    preloader.classList.add('hidden');
+  }, 2000); // Скрыть прелоадер через 2 секунды
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+});
+
+// Проверяем состояние кнопки при загрузке страницы
+document.addEventListener('DOMContentLoaded', (event) => {
+  if (localStorage.getItem('buttonClicked')) {
+    const button = document.getElementById('discount-signup-button');
+    button.classList.add('disabled');
+    button.disabled = true;
+  }
+});
+
+// Добавляем обработчик события на кнопку
+document.getElementById('discount-signup-button').addEventListener('click', function() {
+  localStorage.setItem('buttonClicked', 'true'); // Сохраняем флаг в localStorage
+  this.classList.add('disabled');
+  this.disabled = true;
+});
+
+function createSnowflakes() {
+  const section = document.querySelector('.animated-gradient');
+  const numberOfSnowflakes = 50; // Количество снежинок
+
+  for (let i = 0; i < numberOfSnowflakes; i++) {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.innerHTML = '&#10052;'; // HTML код снежинки
+    snowflake.style.left = Math.random() * 100 + '%';
+    snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    snowflake.style.opacity = Math.random();
+
+    // Устанавливаем размер шрифта случайным образом, например от 1em до 3em
+    snowflake.style.fontSize = (Math.random() * 2 + 1) + 'em';
+
+    // Применяем анимацию падения
+    snowflake.style.animationName = 'fall';
+    snowflake.style.animationIterationCount = 'infinite';
+    snowflake.style.animationTimingFunction = 'linear';
+
+    section.appendChild(snowflake);
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var button = document.getElementById('discount-signup-button');
+  var snowflakes = document.querySelectorAll('.snowflake');
+
+  button.addEventListener('mouseenter', function() {
+    snowflakes.forEach(function(snowflake) {
+      snowflake.style.animationPlayState = 'paused';
+    });
+  });
+
+  button.addEventListener('mouseleave', function() {
+    snowflakes.forEach(function(snowflake) {
+      snowflake.style.animationPlayState = 'running';
+    });
+  });
+});
+
+// Запускаем функцию создания снежинок
+createSnowflakes();
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var footer = document.querySelector('.footer');
+  if (footer) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        document.querySelectorAll('.footer-nav a').forEach(function(link) {
+          if (entry.isIntersecting) {
+            link.classList.add('animate-link');
+          } else {
+            link.classList.remove('animate-link');
+          }
+        });
+      });
+    }, { threshold: [0.1] });
+    observer.observe(footer);
+  }
+});
+
+window.onload = function() {
+    var storedImage = localStorage.getItem('profileImage');
+    if (storedImage) {
+        var footerImageElement = document.querySelector('.footer-left img');
+        if (footerImageElement) {
+            footerImageElement.src = storedImage;
+        }
+    }
+
+    var savedName = localStorage.getItem('profileName') || 'Юзер';
+    var usernamePlaceholder = document.getElementById('username-placeholder');
+    if (usernamePlaceholder) {
+        usernamePlaceholder.textContent = savedName + '!';
+    }
+};
+
+$('#registrationModal').on('show.bs.modal', function () {
+    var savedName = localStorage.getItem('profileName');
+    if (savedName) {
+      var nameInput = document.getElementById('name');
+      nameInput.value = savedName;
+      nameInput.disabled = true;
+    }
+  });
+    </script> 
+</body> 
+</html>

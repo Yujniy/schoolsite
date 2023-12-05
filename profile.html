@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+
+    body {
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+    .form-group {
+            margin-top: 80px; /* Пример пользовательского отступа сверху */
+        }
+        .profile-drop-area {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-img {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+    }
+
+    .hidden {
+    display: none;
+    }
+
+    @keyframes backgroundFade {
+    0%, 100% { background-color: white; }
+    50% { background-color: grey; }
+    }
+    
+    body {
+    animation: backgroundFade 2s linear infinite;
+    }
+    
+    .hidden {
+    display: none;
+    }
+
+    .back-icon {
+        margin-top: 40px; /* Сдвигает элемент вниз на 10 пикселей */
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .back-text {
+        margin-top: 40px; /* Сдвигает элемент вниз на 10 пикселей */
+    }
+
+    .back-button {
+    display: flex; /* Использует flexbox для выравнивания элементов в одну линию */
+    align-items: center; /* Выровняет элементы по центру по вертикали */
+    cursor: pointer;
+}
+
+.back-button,
+.back-button * { /* Применяется к кнопке и всем её дочерним элементам */
+    transition: color 0.3s, fill 0.3s; /* Добавляем плавный переход для цвета и заливки */
+}
+
+.back-button:hover,
+.back-button:hover * { /* Изменение цвета при наведении на кнопку или её содержимое */
+    color: #00BFFF; /* Голубой цвет для текста */
+}
+#nameForm button:hover {
+    transform: scale(1.1); /* Увеличивает размер кнопки */
+    transition: transform 0.2s; /* Делает изменение плавным */
+  }
+
+.calendar {
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    max-width: 300px;
+    margin: auto;
+}
+
+.week {
+    display: flex;
+    justify-content: space-between;
+}
+
+.day-container {
+    text-align: center; /* Центрирование текста для дней и дат */
+}
+
+.day {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 4px; /* Отступ снизу для разделения даты от квадрата дня */
+}
+
+.date {
+    display: block; /* Дата будет блочным элементом, чтобы занять всю ширину контейнера */
+    font-size: 0.75em; /* При необходимости уменьшите размер шрифта для даты */
+    color: #333; /* Цвет текста для даты */
+}
+
+.current-day .day {
+    background-color: #e0e0e0; /* Более темный фон для квадрата текущего дня */
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; /* Отступ внизу 20 пикселей */
+}
+
+.month-label {
+    display: block; /* Элемент растягивается на всю ширину контейнера */
+    margin-left: auto; /* Отступ слева автоматический */
+    margin-right: auto; /* Отступ справа автоматический */
+}
+
+@media (max-width: 768px) {
+    .calendar {
+        transform: scale(1.1); /* Увеличиваем календарь в 1.5 раза */
+        transform-origin: top center; /* Центр увеличения - верхний центр */
+    }
+}
+
+.education-section {
+    background-color: #f5f5f5;
+    padding: 20px;
+    color: #6f42c1; /* Фиолетовый текст для всего раздела, если нужно */
+}
+
+.education-section h2 {
+    color: #6f42c1;
+}
+
+.education-section {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+.course {
+  background-color: #6f42c1; /* Фиолетовый фон для курса */
+  border-radius: 15px; /* Скругленные углы */
+  padding: 20px; /* Отступы внутри блока курса */
+  margin: 10px 0; /* Отступ сверху и снизу */
+  color: white; /* Белый текст */
+}
+
+.course-title {
+  font-size: 1.5em; /* Размер шрифта заголовка курса */
+  margin-bottom: 10px; /* Отступ после заголовка */
+}
+
+.course-description {
+  font-size: 1em; /* Размер шрифта описания курса */
+}
+
+/* Стили для секции курсов */
+.available-courses .course {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+}
+
+.available-courses .course-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.available-courses .course-info {
+    flex-grow: 1;
+}
+
+.available-courses .course-checkbox {
+    transform: scale(1.8); /* Увеличиваем чекбокс */
+    margin-left: 10px;
+    cursor: pointer;
+}
+.my-courses .course {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+}
+
+.my-courses .course-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.my-courses .course-info {
+    flex-grow: 1;
+}
+
+.my-courses .course-checkbox {
+    transform: scale(1.8); /* Enlarges the checkbox */
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.course-enter {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .course-enter-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Стили для анимации удаления курса из "Мои курсы" */
+  .course-leave {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .course-leave-active {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  .bootstrap-dot {
+      height: 10px;
+      width: 10px;
+      background-color: purple;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 14px;
+  }
+
+.profile-container {
+    display: flex;
+    align-items: center; /* Выравнивание по вертикали */
+}
+
+.profile-img {
+    margin-right: 10px; /* Отступ справа от изображения */
+}
+
+.btn-purple {
+    background-color: #6f42c1; /* Фиолетовый цвет, например, как в Bootstrap 5 */
+    border-color: #6f42c1; /* Установите цвет границы, чтобы соответствовать */
+}
+
+.hidden {
+    display: none;
+}
+</style>
+<body>
+
+    <div class="back-button d-none">
+        <svg class="back-icon" width="50" height="18.11" viewBox="0 0 274 99" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.64992 43.8924L267.736 43.8924C270.853 43.8924 273.372 46.4111 273.372 49.5286C273.372 52.6462 270.853 55.1649 267.736 55.1649L19.265 55.1649L53.47 89.3699C55.6717 91.5716 55.6717 95.1471 53.47 97.3488C51.2684 99.5504 47.6929 99.5504 45.4912 97.3488L1.6517 53.5092C0.0312805 51.8888 -0.444283 49.4758 0.436382 47.3622C1.31705 45.2662 3.3778 43.8924 5.64992 43.8924Z" fill="black"/>
+        <path d="M49.5422 1.45726e-05C50.9865 1.45726e-05 52.4308 0.546031 53.5229 1.65567C55.7245 3.85733 55.7245 7.43283 53.5229 9.63449L9.63049 53.5269C7.42883 55.7285 3.85334 55.7285 1.65168 53.5269C-0.549987 51.3252 -0.549987 47.7497 1.65168 45.548L45.544 1.65567C46.6537 0.546031 48.0979 1.45726e-05 49.5422 1.45726e-05Z" fill="black"/>
+        </svg>
+        <span class="back-text">Назад</span>
+    </div>
+        
+    <div id="content" class="container mt-5 d-none">
+        <div class="container mt-5">
+            <div class="row">
+                <!-- Колонка для поля ввода -->
+                <div class="col-md-6">
+                    <form id="nameForm">
+                        <div class="form-group">
+                            <label for="inputName">Имя</label>
+                            <!-- Уменьшенное поле ввода -->
+                            <input type="text" class="form-control form-control-sm" id="inputName" placeholder="Введите ваше имя">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+
+            <!-- Колонка для изображения -->
+            <div class="col-md-6">
+                <!-- Область для drag-and-drop -->
+            <div class="profile-container" ondragover="event.preventDefault()" ondrop="dropHandler(event)">
+                <img src="./profile.svg" alt="Профиль" class="profile-img" onclick="document.getElementById('imageInput').click();" />
+                <button type="button" class="btn btn-primary btn-purple hidden" id="resetButton" onclick="resetImage()">Сбросить</button>
+                <input type="file" id="imageInput" style="display: none;" accept="image/*" />
+            </div>
+        </div>
+    </div>
+
+<div class="education-section">
+    <h2 class="text-center">Мое обучение</h2>
+<div class="calendar">
+    <!-- Секция для названия месяца -->
+    <div class="calendar-header">
+        <span class="month-label"></span>
+    </div>
+    <!-- Неделя -->
+    <div class="week">
+        <!-- Понедельник -->
+        <div class="day-container">
+            <div class="day"><span class="weekday">Пн</span></div>
+            <span class="date">1</span>
+        </div>
+        <!-- Вторник -->
+        <div class="day-container">
+            <div class="day"><span class="weekday">Вт</span></div>
+            <span class="date">2</span>
+        </div>
+        <!-- Среда -->
+        <div class="day-container">
+            <div class="day"><span class="weekday">Ср</span></div>
+            <span class="date">3</span>
+        </div>
+        <!-- Четверг -->
+        <div class="day-container thursday">
+            <div class="day"><span class="weekday">Чт</span></div>
+            <span class="date">4</span>
+            <!-- Фиолетовая точка, изначально скрытая -->
+            <div class="bootstrap-dot" style="display: none;"></div>
+        </div>
+        <!-- Пятница -->
+        <div class="day-container">
+            <div class="day"><span class="weekday">Пт</span></div>
+            <span class="date">5</span>
+        </div>
+        <!-- Суббота -->
+        <div class="day-container">
+            <div class="day"><span class="weekday">Сб</span></div>
+            <span class="date">6</span>
+        </div>
+        <!-- Воскресенье -->
+        <div class="day-container">
+            <div class="day"><span class="weekday">Вс</span></div>
+            <span class="date">7</span>
+        </div>
+    </div>
+</div>
+
+<div class="courses-section">
+    <h2 class="text-center">Мои курсы</h2>
+    <div class="courses-container my-courses">
+        <!-- Сюда будут перемещаться выбранные курсы -->
+    </div>
+</div>
+
+<!-- Секция "Доступные курсы" -->
+<div class="available-courses">
+    <h2 class="text-center">Доступные курсы</h2>
+    <div class="courses-list">
+        <!-- Курс по Bootstrap -->
+        <div class="course" data-course-id="course1">
+            <label for="bootstrap-course" class="course-label">
+                <div class="course-info">
+                    <div class="course-title">Bootstrap</div>
+                    <div class="course-description">Изучите фреймворк Bootstrap для разработки адаптивных и мобильно-ориентированных веб-страниц.</div>
+                </div>
+                <input type="checkbox" id="bootstrap-course" name="courses" class="course-checkbox">
+            </label>
+        </div>
+        <!-- Курс по HTML -->
+        <div class="course" data-course-id="course2">
+            <label for="html-course" class="course-label">
+                <div class="course-info">
+                    <div class="course-title">HTML</div>
+                    <div class="course-description">Получите глубокие знания о HTML, языке разметки, который является основой всех веб-сайтов.</div>
+                </div>
+                <input type="checkbox" id="html-course" name="courses" class="course-checkbox">
+            </label>
+        </div>
+        <!-- Дополнительные курсы -->
+    </div>
+
+<div id="onboardingModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="onboardingStep1" class="onboarding-step">
+      <p>Шаг 1: Добавление вашего фото</p>
+      <p>Чтобы добавить фото, кликните на иконку камеры в профиле.</p>
+      <button onclick="goToOnboardingStep(2)">Следующий шаг</button>
+    </div>
+    <div id="onboardingStep2" class="onboarding-step" style="display:none;">
+      <p>Шаг 2: Изменение вашего имени</p>
+      <p>Чтобы изменить имя, нажмите на кнопку 'Редактировать' рядом с вашим именем.</p>
+      <button onclick="closeOnboarding()">Завершить обучение</button>
+    </div>
+  </div>
+</div>
+
+</div>
+    <!-- Подключение Bootstrap JS и зависимостей -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Код JavaScript для сохранения имени в localStorage
+    </script>
+</body>
+<script>
+// Загружаем сохраненное изображение при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    var savedName = localStorage.getItem('profileName');
+    if (savedName) {
+        document.getElementById('inputName').value = savedName;
+    }
+    
+    var savedImage = localStorage.getItem('profileImage');
+    if (savedImage) {
+        document.querySelector('.profile-img').src = savedImage;
+    }
+
+setTimeout(function() {
+    var contentElement = document.getElementById('content');
+    var backButtonElement = document.querySelector('.back-button');
+
+    // Remove the 'hidden' class if it's being used, or 'd-none' to make the elements visible
+    contentElement.classList.remove('d-none');
+    backButtonElement.classList.remove('d-none');
+
+    document.body.style.animation = 'none'; // Stopping the background animation
+}, 2000);
+
+});
+
+// Функция для сохранения имени в localStorage
+function saveName() {
+    var name = document.getElementById('inputName').value;
+    localStorage.setItem('profileName', name);
+}
+
+// Функция для сохранения изображения в localStorage
+function saveImage(imageDataURL) {
+    localStorage.setItem('profileImage', imageDataURL);
+}
+
+// Обработка перетаскивания и загрузки файла
+function dropHandler(event) {
+    event.preventDefault();
+    var files = event.dataTransfer.files;
+    if (files.length > 0 && files[0].type.startsWith('image/')) {
+        var file = files[0];
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            var imageDataURL = e.target.result;
+            document.querySelector('.profile-img').src = imageDataURL;
+            saveImage(imageDataURL); // Сохраняем изображение
+        };
+        
+        reader.readAsDataURL(file);
+    }
+}
+
+// Обработчик изменения для input type="file"
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    var files = event.target.files;
+    if (files.length > 0 && files[0].type.startsWith('image/')) {
+        var file = files[0];
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            var imageDataURL = e.target.result;
+            document.querySelector('.profile-img').src = imageDataURL;
+            saveImage(imageDataURL); // Сохраняем изображение
+        };
+        
+        reader.readAsDataURL(file);
+    }
+});
+
+// Обработчик событий для формы, чтобы предотвратить её отправку
+document.getElementById('nameForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    saveName();
+});
+
+// Прикрепляем обработчик события клика к элементу с классом 'back-button'
+document.querySelector('.back-button').addEventListener('click', function() {
+    window.history.back(); // Возвращаем пользователя на предыдущую страницу
+});
+
+document.getElementById('nameForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Предотвратить отправку формы
+    var saveButton = event.target.querySelector('button[type="submit"]');
+    saveButton.textContent = 'Сохранено!'; // Изменение текста кнопки
+    setTimeout(function() {
+      saveButton.textContent = 'Сохранить'; // Возвращение исходного текста кнопки после 2 секунд
+    }, 2000); // 2000 миллисекунд = 2 секунды
+});
+
+function updateWeekDays() {
+    const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    const today = new Date();
+    let dayOfWeek = today.getDay();
+    dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const currentDay = today.getDate();
+    const weekStart = new Date(today.getFullYear(), today.getMonth(), currentDay - dayOfWeek);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+
+    const weekContainers = document.querySelectorAll('.day-container');
+    const monthLabel = document.querySelector('.month-label');
+
+    // Определение названий месяцев
+    const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    
+    // Проверка, является ли неделя переходной между месяцами
+    const startMonth = monthNames[weekStart.getMonth()];
+    const endMonth = monthNames[weekEnd.getMonth()];
+    const monthLabelText = startMonth === endMonth ? startMonth : `${startMonth}-${endMonth}`;
+
+    // Установка названия месяца или периода
+    monthLabel.textContent = monthLabelText;
+
+    weekContainers.forEach((container, index) => {
+        const dateElement = container.querySelector('.date');
+        const weekDayElement = container.querySelector('.weekday');
+        const date = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + index);
+
+        weekDayElement.textContent = weekDays[index];
+        dateElement.textContent = date.getDate();
+
+        // Выделение текущего дня
+        if (date.toDateString() === today.toDateString()) {
+            container.classList.add('current-day');
+        } else {
+            container.classList.remove('current-day');
+        }
+    });
+}
+
+
+function goToOnboardingStep(stepNumber) {
+    // Скрыть все шаги
+    var steps = document.querySelectorAll('.onboarding-step');
+    steps.forEach(function(step) {
+        step.style.display = 'none';
+    });
+
+    // Показать нужный шаг
+    var currentStep = document.getElementById('onboardingStep' + stepNumber);
+    if (currentStep) {
+        currentStep.style.display = 'block';
+    }
+
+    // Выделить соответствующий элемент на странице
+    highlightElementForStep(stepNumber);
+}
+
+function highlightElementForStep(stepNumber) {
+    // Удалить выделение с предыдущих элементов
+    var highlighted = document.querySelectorAll('.highlight');
+    highlighted.forEach(function(element) {
+        element.classList.remove('highlight');
+    });
+
+    // Добавить выделение к элементу для текущего шага
+    var elementToHighlight;
+    switch(stepNumber) {
+        case 1:
+            elementToHighlight = document.querySelector('.profile-photo-icon'); // Пример селектора
+            break;
+        case 2:
+            elementToHighlight = document.querySelector('.edit-name-button'); // Пример селектора
+            break;
+    }
+
+    if (elementToHighlight) {
+        elementToHighlight.classList.add('highlight');
+    }
+}
+
+function closeOnboarding() {
+    var onboardingModal = document.getElementById('onboardingModal');
+    onboardingModal.style.display = 'none';
+    localStorage.setItem('hasVisited', 'true');
+}
+
+// Вызов функции при загрузке страницы
+window.onload = function() {
+    updateWeekDays();
+
+        // Проверка показывать ли обучение
+        var hasVisited = localStorage.getItem('hasVisited');
+    if (!hasVisited) {
+        var onboardingModal = document.getElementById('onboardingModal');
+        onboardingModal.style.display = 'block';
+
+        // Закрытие модального окна и установка флага посещения в localStorage
+        var closeButton = onboardingModal.querySelector('.close');
+        closeButton.onclick = function() {
+            onboardingModal.style.display = 'none';
+            localStorage.setItem('hasVisited', 'true');
+        };
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    var courseCheckboxes = document.querySelectorAll('.available-courses .course-checkbox');
+    var myCoursesContainer = document.querySelector('.my-courses');
+    var availableCoursesList = document.querySelector('.available-courses .courses-list');
+
+    function saveMyCourses() {
+        var myCourses = Array.from(myCoursesContainer.children).map(function(course) {
+            return course.dataset.courseId; // предполагается, что у курсов есть data-attribute с уникальным ID
+        });
+        localStorage.setItem('myCourses', JSON.stringify(myCourses));
+    }
+
+    function restoreMyCourses() {
+        var storedCourses = JSON.parse(localStorage.getItem('myCourses'));
+        if (storedCourses) {
+            storedCourses.forEach(function(courseId) {
+                var courseBlock = document.querySelector('.course[data-course-id="' + courseId + '"]');
+                if (courseBlock) {
+                    myCoursesContainer.appendChild(courseBlock);
+                    var checkbox = courseBlock.querySelector('.course-checkbox');
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                }
+            });
+        }
+    }
+
+    function animateCourseEnter(courseBlock) {
+        courseBlock.classList.add('course-enter');
+        myCoursesContainer.appendChild(courseBlock);
+        setTimeout(function() {
+            courseBlock.classList.add('course-enter-active');
+        }, 10);
+    }
+
+    function animateCourseLeave(courseBlock) {
+        courseBlock.classList.add('course-leave');
+        setTimeout(function() {
+            courseBlock.classList.add('course-leave-active');
+
+            courseBlock.addEventListener('transitionend', function handler() {
+                courseBlock.classList.remove('course-leave', 'course-leave-active');
+                availableCoursesList.appendChild(courseBlock);
+                courseBlock.removeEventListener('transitionend', handler);
+            });
+        }, 10);
+    }
+
+    restoreMyCourses();
+
+    courseCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            var courseBlock = checkbox.closest('.course');
+            if (checkbox.checked) {
+                animateCourseEnter(courseBlock);
+            } else {
+                animateCourseLeave(courseBlock);
+            }
+            saveMyCourses();
+        });
+    });
+});
+
+document.getElementById('bootstrap-course').addEventListener('change', function() {
+    var displayValue = this.checked ? 'block' : 'none';
+    document.querySelector('.thursday .bootstrap-dot').style.display = displayValue;
+});
+
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    if (event.target.files && event.target.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            document.querySelector('.profile-img').src = e.target.result;
+            document.getElementById('resetButton').classList.remove('hidden');
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+    }
+});
+
+function resetImage() {
+    var defaultImage = './profile.svg';
+    document.querySelector('.profile-img').src = defaultImage;
+
+    document.getElementById('resetButton').classList.add('hidden');
+
+    localStorage.removeItem('profileImage');
+}
+    </script>
+</html>
